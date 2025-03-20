@@ -1,42 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+import React, { useEffect, useState } from 'react';
+
+function App() {
+  const [products, setProducts] = useState([]);
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+
+  // Charger les produits
+  const fetchProducts = async () => {
+    const response = await fetch('/api/items/products');
+    const data = await response.json();
+    setProducts(data.data);
+  };
+
+  // Ajouter un produit
+  const addProduct = async (e) => {
+    e.preventDefault();
+    await fetch('/api/items/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, price: parseInt(price) }),
+    });
+    setName('');
+    setPrice('');
+    fetchProducts(); // Refresh la liste
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>Liste des Produits</h2>
+      <ul>
+        {products.map((prod) => (
+          <li key={prod.id}>{prod.name} - {prod.price}€</li>
+        ))}
+      </ul>
+
+      <h3>Ajouter un produit</h3>
+      <form onSubmit={addProduct}>
+        <input
+          type="text"
+          placeholder="Nom du produit"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Prix"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+        />
+        <button type="submit">Ajouter</button>
+      </form>
+    </div>
+  );
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
+export default App;
