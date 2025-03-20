@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://<IP_BACKEND>:8055', // Remplace <IP_BACKEND> par l'IP réelle
+        target: 'http://<IP_BACKEND>:8055', // Remplace <IP_BACKEND> par l'IP de ton backend
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

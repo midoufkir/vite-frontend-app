@@ -1,50 +1,37 @@
-/* Reset de base */
 body {
-  margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f7f7f7;
+  margin: 20px;
 }
 
-/* Style du conteneur */
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+h1 {
+  color: #333;
 }
 
-/* Style de la liste */
 ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
 }
 
 li {
+  background: #f9f9f9;
+  margin: 5px 0;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
 
-li:last-child {
-  border-bottom: none;
-}
-
-/* Champ d'ajout */
-input, button {
-  padding: 10px;
+input {
   margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 5px;
 }
 
 button {
-  background-color: #007bff;
+  padding: 5px 10px;
+  background: #28a745;
   color: white;
+  border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #218838;
 }
