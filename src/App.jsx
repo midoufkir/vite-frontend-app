@@ -37,7 +37,6 @@ function App() {
         return res.json();
       })
       .then((data) => {
-        // Rafraîchit la liste des produits après l'ajout
         setProducts([...products, data.data]);
         setName('');
         setPrice('');
