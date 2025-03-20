@@ -7,8 +7,12 @@ function App() {
 
   useEffect(() => {
     fetch('/api/items/products')
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data || []));
+      .then((res) => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then((data) => setProducts(data.data || []))
+      .catch((error) => console.error('Error fetching products:', error));
   }, []);
 
   const handleAddProduct = () => {
@@ -23,7 +27,7 @@ function App() {
     <div>
       <h1>Product List</h1>
       <ul>
-        {products.map((prod) => (
+        {Array.isArray(products) && products.map((prod) => (
           <li key={prod.id}>{prod.name} - {prod.price} €</li>
         ))}
       </ul>
