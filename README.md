@@ -8,3 +8,4 @@ npm run dev
 
 ##  API Backend (Directus)
 Accessible sur : http://<backend-ip>:8055
+# test trigger sonar
