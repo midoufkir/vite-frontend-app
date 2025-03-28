@@ -1,36 +1,33 @@
-name: SonarQube Scan
+name: Analyse SonarQube
 
 on:
   push:
     branches:
       - master
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   sonarqube:
-    name: Analyze frontend with SonarQube
+    name: Analyse de code avec SonarQube
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Installer les dépendances
         run: npm ci
 
-      - name: Run SonarQube Scan
+      - name: Analyse SonarQube
         uses: sonarsource/sonarqube-scan-action@v1.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         with:
           args: >
             -Dsonar.projectKey=vite-frontend-app
             -Dsonar.projectName=vite-frontend-app
             -Dsonar.sources=src
-            -Dsonar.host.url=http://54.90.136.138:9000
