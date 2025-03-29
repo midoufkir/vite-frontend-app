@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Nécessaire pour l'analyse des nouvelles violations
+          fetch-depth: 0  # Important pour l'analyse Git
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -22,6 +22,9 @@ jobs:
 
       - name: Installer les dépendances
         run: npm ci
+
+      - name: Build du projet (si nécessaire)
+        run: npm run build
 
       - name: Analyse SonarQube
         uses: sonarsource/sonarqube-scan-action@v1.0.0
@@ -32,6 +35,9 @@ jobs:
           args: >
             -Dsonar.projectKey=vite-frontend-app
             -Dsonar.projectName=vite-frontend-app
+            -Dsonar.projectVersion=1.0
             -Dsonar.sources=src
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.verbose=true  # Active les logs détaillés
+            -Dsonar.verbose=true
+            -Dsonar.javascript.node.version=18
+            -Dsonar.sourceEncoding=UTF-8
