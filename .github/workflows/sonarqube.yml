@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Nécessaire pour l'analyse des nouvelles violations
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -32,3 +34,4 @@ jobs:
             -Dsonar.projectName=vite-frontend-app
             -Dsonar.sources=src
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.verbose=true  # Active les logs détaillés
