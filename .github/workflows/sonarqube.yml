@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Important pour que SonarQube puisse analyser l'historique Git
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -21,13 +23,21 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
+      - name: Build l'application (si nécessaire)
+        run: npm run build
+
       - name: Analyse SonarQube
         uses: sonarsource/sonarqube-scan-action@v1.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # Doit être "http://54.91.108.153:9000"
         with:
           args: >
             -Dsonar.projectKey=vite-frontend-app
             -Dsonar.projectName=vite-frontend-app
             -Dsonar.sources=src
+            -Dsonar.javascript.node.version=18
+            -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}  # Important pour l'authentification
+            -Dsonar.coverage.exclusions=**/node_modules/**,**/test/**
+            -Dsonar.cpd.exclusions=**/node_modules/**
